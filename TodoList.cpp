@@ -28,16 +28,13 @@ bool TodoList::deleteTaskById(int id) {
 }
 
 // Edit Task
-bool TodoList::editTaskById(int id, const std::string& title, const std::string& description) {
+void TodoList::editTaskById(int id, const std::string& title, const std::string& description) {
     for(auto& task : tasks) {
         if(task.ID == id) {
             task.title = title;
             task.description = description;
-            return true;
         }
     }
-
-    return false;
 }
 
 // Mark as done
@@ -100,4 +97,48 @@ void TodoList::loadFromFile(const std::string& filename) {
     nextId = maxId + 1;
 
     file.close();
+}
+
+std::vector<Task> TodoList::searchByKeyword(std::string keyword) const {
+    std::vector<Task> result;
+
+    for(const auto& task : tasks) {
+        if(task.title.find(keyword) != std::string::npos || task.description.find(keyword) != std::string::npos) {
+            result.push_back(task);
+        }
+    }
+
+    return result;
+}
+
+std::vector<Task> TodoList::getCompletedTasks() const {
+    std::vector<Task> result;
+
+    for(const auto& task : tasks) {
+        if(task.completed) {
+            result.push_back(task);
+        }
+    }
+
+    return result;
+}
+
+std::vector<Task> TodoList::getPendingTasks() const {
+    std::vector<Task> result;
+
+    for(const auto& task : tasks) {
+        if(!task.completed) {
+            result.push_back(task);
+        }
+    }
+
+    return result;
+}
+
+const Task* TodoList::getTask(int id) const {
+    for(const auto& task : tasks) {
+        if(task.ID == id) return &task;
+    }
+
+    return nullptr;
 }

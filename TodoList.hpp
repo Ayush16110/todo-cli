@@ -23,9 +23,13 @@ class TodoList {
         void addTask(std::string title, std::string description); //add task
         const std::vector<Task>& getTasks() const; //list task
         bool deleteTaskById(int id); //delete task
-        bool editTaskById(int id, const std::string& title, const std::string& description); // edit task
+        void editTaskById(int id, const std::string& title, const std::string& description); // edit task
         bool markTaskDoneById(int id); //mark as done
         void saveToFile(const std::string& filename) const; // save to file
         void loadFromFile(const std::string& filename); // load from file
+        std::vector<Task> searchByKeyword(std::string keyword) const; // Search feature
+        std::vector<Task> getCompletedTasks() const; // Filter completed tasks
+        std::vector<Task> getPendingTasks() const; // Filter pending tasks
+        const Task* getTask(int id) const; // Fetch single task with ID
 
 };
